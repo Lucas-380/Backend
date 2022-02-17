@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="m-3">Clase 10</h1>
+    <a class="m-3" href="/productos">Ver lista de productos</a>
+    <div class="container-fluid row justify-content-center">
+        <form class="margen col-lg-6" method="POST" action="http://localhost:8080/productos">
+            <div class="form-group">
+              <label>Titulo del producto</label>
+              <input class="form-control" name="title" type="text" placeholder="ingresar title">
+            </div>
+            <div class="form-group">
+              <label>Precio del producto</label>
+              <input class="form-control" name="price" type="number" placeholder="ingresar price">
+            </div>
+            <div class="form-group">
+                <label>Dirección de la imagen del producto</label>
+                <input class="form-control" name="thumbnail" type="text" placeholder="ingresar url del thumbnail">
+            </div>
+            <input class="btn btn-dark" type="submit" value="Enviar">
+        </form>
+    </div>
+
+</body>
+
+</html>

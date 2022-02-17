@@ -1,0 +1,26 @@
+<h2 class="m-3">Lista de productos</h2>
+
+<div class="container-fluid row justify-content-center">
+    <table class="table margen">
+    <thead class="thead-dark">
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#if listExists}}
+            {{#each productos}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td>{{this.title}}</td>
+                    <td>{{this.price}}</td>
+                    <td><img src="{{this.thumbnail}}" style="height: 40px;"></td>
+                </tr>
+            {{/each}}
+        {{/if}}
+    </tbody>
+    </table>
+</div>

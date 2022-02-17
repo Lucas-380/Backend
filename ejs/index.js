@@ -8,7 +8,7 @@ const port = 8080
 
 const containerProds = new Contenedor ([])
 
-app.use('/static', express.static('public'))
+app.use('/', express.static('public'))
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -26,6 +26,10 @@ productos.get('/', (req, res) => {
 productos.post('/', (req, res)=>{
     containerProds.save(req.body)
     res.send(containerProds.getAll())
+})
+app.post('/productos', (req, res)=>{
+    containerProds.save(req.body)
+    res.redirect('/productos')
 })
 
 //Devuelve un producto según su id
@@ -58,3 +62,36 @@ app.use('/api/productos', productos)
 app.listen(port, () =>{
     console.log(`Example app listening at http:/localhost:${port}`)
 });
+ 
+
+//------------------Clase-10--Handlebars------------------
+// //-Carga de el móduclo handlebars
+// const handlebars = require("express-handlebars")
+
+// //establecemos la conf. de handlebars
+// app.engine(
+//     "hbs",
+//     handlebars.engine({
+//         extname: ".hbs",
+//         defaultLayout: 'index.hbs',
+//         layoutsDir: __dirname + "/views/layouts"
+//     })
+// );
+
+// //establecemos el motor de plantilla que se utiliza
+// app.set("view engine", "hbs" )
+// //establecemos directorio donde se encuentran los archivos de plantilla
+// app.set("views", "./views")
+
+// app.get("/productos", (req, res) => {
+//     res.render("main", { productos: containerProds.getAll(), listExists: true })
+// })
+
+//-----------------EJS
+//Motor de plantilla que se utiliza
+app.set('view engine', 'ejs' )
+
+
+app.get("/productos", (req, res) => {
+    res.render("main", { productos: containerProds.getAll(), listExists: true })
+})

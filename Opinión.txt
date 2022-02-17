@@ -1,0 +1,1 @@
+De los tres motores el que prefiero para mi proyecto creo que seria el ejs porque se me hace mas facil a la hora de leerlo ya que el html es tal cual como lo conozco. Al principio cuando tenia que aplicar logica en las plantillas me mareaba un poco en comparación a los otros dos motores pero una vez que supe como era la sintaxis pude resolverlo.
