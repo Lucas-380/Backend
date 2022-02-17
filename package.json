@@ -1,16 +1,15 @@
 {
-  "name": "expressApp",
+  "name": "ProyectoFinal_1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "servidor.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon servidor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "express-handlebars": "^6.0.2"
+    "express": "^4.17.2"
   }
 }
