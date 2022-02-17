@@ -1,0 +1,20 @@
+[
+    { 
+        "title":"Escuadra", 
+        "price":325,
+        "thumbnail":"http://lorempixel.com/350/230/",
+        "id":1
+    },
+    { 
+        "title":"Calculadora", 
+        "price":400,
+        "thumbnail":"http://lorempixel.com/350/230/",
+        "id":2
+    },
+    { 
+        "title":"Lapiz", 
+        "price":50,
+        "thumbnail":"http://lorempixel.com/350/230/",
+        "id":3
+    }
+]

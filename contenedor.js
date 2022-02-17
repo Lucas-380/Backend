@@ -5,15 +5,15 @@ class Contenedor{
         this.producto = prod
     }
     save(prod){
-        prod.id = Date.now()
         const contenido = this.getAll()
+        prod.id = contenido.length == 0 ? 1 : contenido[ contenido.length-1 ].id + 1;
         contenido.push(prod)
         try {
-            fs.writeFileSync('./producto.txt', JSON.stringify(contenido, null, '\t')+'\n')
-            return prod.id
+          fs.writeFileSync('./productos.txt', JSON.stringify(contenido, null, '\t')+'\n')
+          return prod.id
         }
         catch(err){
-            console.log(err);
+          console.log(err);
         }
     }
     getById(id) {
@@ -22,7 +22,7 @@ class Contenedor{
     }
     getAll() {
         try {
-            const contenido = fs.readFileSync('producto.txt', 'utf-8')
+            const contenido = fs.readFileSync('productos.txt', 'utf-8')
             return JSON.parse(contenido)
         } catch (error) {
             console.log(error);
@@ -32,7 +32,7 @@ class Contenedor{
         const contenido = this.getAll()
         const deleteId = contenido.filter(producto => producto.id !== id)
         try{
-            fs.writeFileSync('producto.txt', JSON.stringify(deleteId, null, '\t')+'\n')
+            fs.writeFileSync('productos.txt', JSON.stringify(deleteId, null, '\t')+'\n')
             console.log("El archivo "+id+" fue eliminado correctamente");
         }catch(error){
             throw new Error('No se pudo eliminar el producto')
@@ -41,30 +41,15 @@ class Contenedor{
     deleteAll(){
         const contenido = []
         try{
-        fs.writeFileSync('producto.txt', JSON.stringify(contenido,null,4))    
+        fs.writeFileSync('productos.txt', JSON.stringify(contenido,null,4))    
         }catch(error){
             throw new Error('No se pudo eliminar el producto')
         }
     }
+    prodRandom(){
+        const data = this.getAll()
+        return data[Math.floor(Math.random()*data.length)]
+    }
 }
 
-const producto = new Contenedor ([])
-
-//----Guardar Archivo----
-producto.save({
-                            title:"Titulo del producto",
-                            precio:1234,
-                            img:"www.direccion-de-imagen.com" 
-                        })
-
-//----Buscar por id----
-console.log(producto.getById(1641944213097));
-
-//----Eliminar por id----
-producto.deleteById(1641943838227)
-
-//----Mostrar todo los productos----
-console.log(producto.getAll())
-
-//----Eliminar todos los productos----
-producto.deleteAll()
+module.exports = Contenedor
