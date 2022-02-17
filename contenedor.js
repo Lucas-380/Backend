@@ -18,7 +18,7 @@ class Contenedor{
     }
     getById(id) {
         const contenido = this.getAll()
-        return contenido.find(producto => producto.id === id) || null
+        return contenido.find(producto => producto.id === id)
     }
     getAll() {
         try {
@@ -30,13 +30,18 @@ class Contenedor{
     }
     deleteById(id) {
         const contenido = this.getAll()
-        const deleteId = contenido.filter(producto => producto.id !== id)
-        try{
-            fs.writeFileSync('productos.txt', JSON.stringify(deleteId, null, '\t')+'\n')
-            console.log("El archivo "+id+" fue eliminado correctamente");
-        }catch(error){
-            throw new Error('No se pudo eliminar el producto')
+        const deleted = contenido.filter(producto => producto.id !== id)
+        if (this.getById(id)) {
+            try {
+                fs.writeFileSync('productos.txt', JSON.stringify(deleted, null, 4))
+                return true
+            } catch (error) {
+                throw new Error('No se pudo eliminar el producto')
+            }
+        } else {
+            return false
         }
+
     }
     deleteAll(){
         const contenido = []
@@ -47,8 +52,29 @@ class Contenedor{
         }
     }
     prodRandom(){
-        const data = this.getAll()
-        return data[Math.floor(Math.random()*data.length)]
+        const contenido = this.getAll()
+        return contenido[Math.floor(Math.random()*contenido.length)]
+    }
+    update(id, body) {
+        const contenido = this.getAll()
+        const producto = contenido.find(producto => producto.id === id)
+        if (producto) {
+            contenido.forEach(element => {
+                if (element.id === id) {
+                    element.price = body.price
+                    element.thumbnail = body.thumbnail
+                    element.title = body.title
+                }
+            })
+            try {
+                fs.writeFileSync('productos.txt', JSON.stringify(contenido, null, 4))
+                return producto
+            } catch (error) {
+                throw new Error('No se pudo actualizar el producto')
+            }
+        } else {
+            return false
+        }
     }
 }
 
