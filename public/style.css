@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.margen{
+    justify-content: center;
+    text-align: center;
+}
+h1 {
+    color: blue;
+  }
+  
+  label {
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  .jumbotron {
+    min-height: 100vh;
+  }
+  
+  #listaMensajes {
+    margin: 1rem 0 2rem 0;
+  }
+  
+  .blue {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  .red {
+    color: red;
+  }
+  
+  .green {
+    color: rgb(0, 190, 0);
+  }
+  
