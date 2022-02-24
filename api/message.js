@@ -1,31 +1,15 @@
-const fs = require("fs")
+const PersistenciaMessage = require('../memory/persistenciaMsj');
 
 class Message {
-    constructor() {
-        this.message = [];
+    async readMessage(){
+        let data = await PersistenciaMessage.readMessage();
+        return data;
     }
-    readMessage(){
-        try {
-           let data = fs.readFileSync("./message.txt", "utf-8");
-            if(data){
-                this.message = JSON.parse(data);
-            }
-            return this.message;
-        }
-        catch(err){
-            console.log(err);
-        }
-
+    
+    async saveMessage(msj) {
+        const message = await PersistenciaMessage.saveMessage(msj);
+        return message;
     }
-    saveMessage(msj) {
-        try {
-            this.message.push(msj);
-            fs.writeFileSync("./message.txt", JSON.stringify(this.message, null, "\t"));
-        } catch (err) {
-            return err;
-        }
-    }
-
 }
 
 module.exports = new Message();

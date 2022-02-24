@@ -1,90 +1,44 @@
-const fs = require('fs')
+const persistenciaProds = require('../memory/persistenciaProds');
+const PersistenciaProduct = require('../memory/persistenciaProds');
 
-class Contenedor{
-    constructor(prod){
-        this.producto = prod
+class Productos{
+    async save(prod){
+        if(prod.title && prod.price && prod.thumbnail){
+            const producto = await PersistenciaProduct.save(prod);
+            return producto
+        }else return;
     }
-    save(prod){
-        const contenido = this.getAll()
-        prod.id = contenido.length == 0 ? 1 : contenido[ contenido.length-1 ].id + 1;
-        contenido.push(prod)
-        try {
-          fs.writeFileSync('./producto.txt', JSON.stringify(contenido, null, '\t')+'\n')
-          return prod
-        }
-        catch(err){
-          console.log(err);
-        }
-    }
-    getById(id) {
-        const contenido = this.getAll()
-        const prod =  contenido.find(producto => producto.id === id)
-        return prod
-    }
-    getAll() {
-        try {
-            const contenido = fs.readFileSync('./producto.txt', 'utf-8')
-            return JSON.parse(contenido)
-        } catch (error) {
-            console.log(error);
-        }   
-    }
-    deleteById(id) {
-        const contenido = this.getAll()
-        const deleted = contenido.filter(producto => producto.id !== id)
-        if (this.getById(id)) {
-            try {
-                fs.writeFileSync('./producto.txt', JSON.stringify(deleted, null, 4))
-                return true
-            } catch (error) {
-                throw new Error('No se pudo eliminar el producto')
-            }
-        } else {
-            return false
-        }
 
+    async getById(id) {
+        const product = await PersistenciaProduct.getById(id);
+        return product;
     }
-    deleteAll(){
-        const contenido = []
-        try{
-        fs.writeFileSync('./producto.txt', JSON.stringify(contenido,null,4))    
-        }catch(error){
-            throw new Error('No se pudo eliminar el producto')
+
+    async getAll() {
+        const product = await PersistenciaProduct.getAll();
+        return product;
+    }
+
+    async deleteById(id) {
+        let productExists = this.getById(id);
+        if (productExists){
+            const product = await PersistenciaProduct.deleteById(id);
+            return product;
         }
     }
-    prodRandom(){
-        const contenido = this.getAll()
-        return contenido[Math.floor(Math.random()*contenido.length)]
+
+    async deleteAll(){
+        await PersistenciaProduct.deleteAll();
     }
-    update(id, body) {
-        const contenido = this.getAll()
-        const producto = contenido.find(producto => producto.id === id)
-        if (producto) {
-            contenido.forEach(element => {
-                if (element.id === id) {
-                    element.price = body.price
-                    element.thumbnail = body.thumbnail
-                    element.title = body.title
-                }
-            })
-            try {
-                fs.writeFileSync('./producto.txt', JSON.stringify(contenido, null, 4))
-                return producto
-            } catch (error) {
-                throw new Error('No se pudo actualizar el producto')
-            }
-        } else {
-            return false
+
+    async update(id, body) {
+        let contenido = await this.getById(id);
+        if (contenido) {
+            const newProd = Object.assign(contenido[0], body);
+            const prod = await persistenciaProds.update(id, newProd);
+            return prod
         }
     }
-    delete(id) {
-        let productExists = this.listarId(id);
-    
-        if (productExists) {
-          this.arrproductos = this.arrproductos.filter(product => product.id != id);
-          return productExists;
-        } else return;
-      }
 }
 
-module.exports = new Contenedor();
+module.exports = new Productos();

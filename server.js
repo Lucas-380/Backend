@@ -26,13 +26,13 @@ app.set("views", __dirname + "/views");
 io.on("connection", async socket => {
   console.log("Nuevo cliente conectado!");
 
-  socket.emit("productos", productos.getAll());
-  socket.emit("showMessages", mensajes.readMessage());
+  socket.emit("productos", await productos.getAll());
+  socket.emit("showMessages", await mensajes.readMessage());
 
   //-----------------Chat-----------------
-  socket.on("newMessage", mensaje => {
-    mensajes.saveMessage(mensaje);
-    io.sockets.emit("showMessages", mensajes.readMessage());
+  socket.on("newMessage", async mensaje => {
+    await mensajes.saveMessage(mensaje);
+    io.sockets.emit("showMessages", await mensajes.readMessage());
   });
 
   socket.on("update", data => {
