@@ -19,22 +19,18 @@ function addMessage() {
 
 socket.on('messages', mensajes => {
 
-    const author = new normalizr.schema.Entity('author');
-    const post = new normalizr.schema.Entity('post', {
-        post: author
-    }, { idAttribute: '_id' });
-    const posts = new normalizr.schema.Entity('posts', {
-        posts: [post]
-    });
+    const author = new normalizr.schema.Entity('author', {}, { idAttribute:'email' });
+    const post = new normalizr.schema.Entity('post', {post: author}, {idAttribute: '_id' });
+    const posts = new normalizr.schema.Entity('posts', {posts: [post]}, { idAttribute:'id' });
 
     const denormalizedData = normalizr.denormalize(mensajes.result, posts, mensajes.entities);
 
     console.log(mensajes);
     console.log(denormalizedData);
 
-    const denormalizeDataSize = Object.keys(denormalizedData).length;
-    const normalizedDataSize = Object.keys(mensajes.result).length;
-    const reducedDataPercentage = (normalizedDataSize - denormalizeDataSize) / normalizedDataSize * 100;
+    const normalizedDataSize = JSON.stringify(mensajes).length;
+    const denormalizedDataSize = JSON.stringify(denormalizedData).length;
+    const reducedDataPercentage = parseInt((normalizedDataSize * 100) / denormalizedDataSize);
 
     document.getElementById('compresion').innerHTML = `Compresión: ${reducedDataPercentage}%`;
 
